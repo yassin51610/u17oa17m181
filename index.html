@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة خاصة جداً</title>
+    <style>
+        /* التصميم العام */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff5f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #555;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* تصميم القلب والنص تحته */
+        .heart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .heart {
+            font-size: 60px;
+            color: #ff66a3;
+            text-shadow: 0 0 15px rgba(255, 102, 163, 0.4);
+            cursor: pointer;
+            transition: all 0.5s;
+            animation: heartbeat 1.5s infinite;
+            margin-bottom: 15px;
+        }
+
+        .heart-text {
+            font-size: 20px;
+            color: #ff66a3;
+            margin-top: 10px;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(0.95); }
+            75% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .heart:hover {
+            transform: scale(1.2) rotate(10deg);
+            text-shadow: 0 0 25px rgba(255, 102, 163, 0.6);
+        }
+
+        /* نافذة كلمة السر */
+        .password-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .password-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .password-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .password-box h2 {
+            color: #ff66a3;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffccdd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: #ff66a3;
+        }
+
+        .submit-btn {
+            background-color: #ff66a3;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .submit-btn:hover {
+            background-color: #ff4d94;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 15px;
+            height: 20px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* تصميم الرسالة */
+        .message-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateY(20px) scale(0.95);
+            z-index: 10;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .message-container.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .message {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 102, 163, 0.2);
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #ffebf0;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff66a3, #ff99c2);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .message h2 {
+            color: #ff66a3;
+            font-size: 26px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ffccdd;
+            text-align: center;
+        }
+
+        .message-content {
+            text-align: right;
+            line-height: 2;
+            font-size: 18px;
+            word-spacing: 5px;
+        }
+
+        .message p {
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            text-align: left;
+            font-style: italic;
+            font-weight: bold;
+            color: #ff66a3;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ffebf0;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ff66a3;
+            font-size: 18px;
+        }
+
+        .close-btn:hover {
+            background: #ff66a3;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* تأثيرات للجوال */
+        @media (max-width: 768px) {
+            .message {
+                padding: 20px;
+                font-size: 16px;
+            }
+            
+            .heart {
+                font-size: 50px;
+            }
+            
+            .heart-text {
+                font-size: 18px;
+            }
+            
+            .message h2 {
+                font-size: 22px;
+            }
+            
+            .signature {
+                font-size: 18px;
+            }
+            
+            .password-box h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart" id="heart">❤️</div>
+        <div class="heart-text">إضغطي على القلب لرؤية الرسالة</div>
+    </div>
+
+    <!-- نافذة كلمة السر -->
+    <div class="password-container" id="password-container">
+        <div class="password-box">
+            <h2>أدخلي كلمة السر</h2>
+            <input type="password" class="password-input" id="password-input" placeholder="كلمة السر...">
+            <button class="submit-btn" id="submit-btn">فتح الرسالة</button>
+            <div class="error-message" id="error-message"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الرسالة -->
+    <div class="message-container" id="message-container">
+        <div class="message">
+            <button class="close-btn" id="close-btn">×</button>
+            <h2>إلى حبيبتي الغالية...</h2>
+            <div class="message-content">
+                <p>حبيبتي،</p>
+                
+                <p>لا أعرف من أين أبدأ، ولا كيف أعبر عمّا يثقل قلبي منذ ابتعدتِ… لكن ما أعرفه هو أني أخطأت، وأني أندم على كل لحظة جعلتكِ تشعرين فيها أني لا أهتم، أو أني لا أحبك.</p>
+                
+                <p>لم أكرهك يومًا، بل كنتِ دائمًا في قلبي، ولكن غبائي، صمتي، برودي أحيانًا… جعلوكِ تظنين عكس ما بداخلي. سامحيني، ليس لأنني أستحق، بل لأنكِ تستحقين من يحبك كما أنتِ: نقية، رائعة، لا تُعوَّض.</p>
+                
+                <p>أشتاق إليكِ… إلى صوتك، إلى ضحكتك، إلى دفء وجودك الذي كان يربت على تعبي دون أن تطلبي شيئًا. كنتِ الأمان، وأنا لم أقدّرك كما ينبغي.</p>
+                
+                <p>لو عاد الزمن، لقاتلتُ من أجلكِ كل لحظة، ولقلتُ لكِ كم أحبك، بدلًا من أن أصمت وأخسرك.</p>
+                
+                <p>إن عدتِ، لن أكون كما كنت. سأكون الشخص الذي يستحقك… وإن لم تعودي، سأظل أحبك بصمت، بندم، وأدعو لكِ بكل خير من أعماق قلبي.</p>
+                
+                <div class="signature">
+                    المحبّ لكِ دائمًا،<br>
+                    [يــاســيـن]❤️‍🔥
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // العناصر الرئيسية
+        const heart = document.getElementById('heart');
+        const passwordContainer = document.getElementById('password-container');
+        const passwordInput = document.getElementById('password-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        const messageContainer = document.getElementById('message-container');
+        const closeBtn = document.getElementById('close-btn');
+
+        // كلمة السر الصحيحة (غير حساسة لحالة الأحرف)
+        const correctPasswords = ["honey", "Honey"];
+        let attempts = 0;
+
+        // عند النقر على القلب
+        heart.addEventListener('click', function() {
+            passwordContainer.classList.add('visible');
+            passwordInput.focus();
+        });
+
+        // عند محاولة فتح الرسالة
+        submitBtn.addEventListener('click', function() {
+            const enteredPassword = passwordInput.value.trim();
+            
+            if (correctPasswords.includes(enteredPassword)) {
+                // كلمة السر صحيحة
+                passwordContainer.classList.remove('visible');
+                messageContainer.classList.add('visible');
+                passwordInput.value = '';
+                errorMessage.textContent = '';
+                attempts = 0;
+            } else {
+                // كلمة السر خاطئة
+                attempts++;
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                if (attempts === 1) {
+                    errorMessage.textContent = "تذكري أكثر...";
+                } else if (attempts === 2) {
+                    errorMessage.textContent = "حاولي مرة أخرى...";
+                } else {
+                    errorMessage.textContent = "تذكري ماذا كان يناديك ياسين...";
+                }
+                
+                // تأثير اهتزاز عند الخطأ
+                passwordInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        });
+
+        // إغلاق الرسالة
+        closeBtn.addEventListener('click', function() {
+            messageContainer.classList.remove('visible');
+        });
+
+        // السماح بالضغط على Enter لإدخال كلمة السر
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+
+        // تأثير اهتزاز عند الخطأ
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
