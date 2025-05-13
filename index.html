@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة وداع نهائية</title>
+    <style>
+        :root {
+            --main-color: #8b0000;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --secondary-color: #444;
+            --error-color: #ff6b6b;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        }
+
+        .heart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .heart {
+            font-size: 60px;
+            color: var(--main-color);
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+            cursor: pointer;
+            transition: all 0.5s;
+            animation: heartbeat 2s infinite;
+            margin-bottom: 15px;
+        }
+
+        .heart.disabled {
+            color: #444;
+            cursor: not-allowed;
+            animation: none;
+        }
+
+        .heart:hover:not(.disabled) {
+            transform: scale(1.2);
+            text-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
+        }
+
+        .heart-text {
+            font-size: 18px;
+            color: #aaa;
+            margin-top: 10px;
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        .attempts-counter {
+            color: var(--error-color);
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(0.95); }
+            75% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .password-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .password-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .password-box {
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 30px 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid var(--main-color);
+            position: relative;
+        }
+
+        .password-box h2 {
+            color: var(--main-color);
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background-color: rgba(30, 30, 30, 0.8);
+            color: var(--text-color);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .password-input:disabled {
+            background-color: rgba(30, 30, 30, 0.5);
+            cursor: not-allowed;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--main-color);
+            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.3);
+        }
+
+        .submit-btn {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn:disabled {
+            background-color: #444;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background-color: #6b0000;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .back-btn {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--secondary-color);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--main-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            margin-top: 15px;
+            font-size: 15px;
+            height: 20px;
+        }
+
+        .message-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s ease;
+            transform: translateY(20px);
+            z-index: 10;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .message-container.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .message {
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            color: var(--text-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--main-color);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .message h2 {
+            color: var(--main-color);
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .message-content {
+            text-align: right;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .message-content p {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .message-content p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .signature {
+            text-align: left;
+            font-style: italic;
+            font-weight: bold;
+            color: var(--main-color);
+            margin-top: 30px;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .signature.visible {
+            opacity: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: transparent;
+            border: none;
+            color: var(--main-color);
+            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(139, 0, 0, 0.2);
+        }
+
+        .lock-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .lock-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lock-box {
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid var(--error-color);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .lock-box h3 {
+            color: var(--error-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .lock-box p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .lock-ok-btn {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lock-ok-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .tear {
+            position: absolute;
+            background: rgba(100, 150, 255, 0.6);
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        @media (max-width: 480px) {
+            .heart {
+                font-size: 50px;
+            }
+            
+            .heart-text {
+                font-size: 16px;
+            }
+            
+            .password-box {
+                padding: 25px 20px;
+            }
+            
+            .password-box h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .message {
+                padding: 20px 15px;
+            }
+            
+            .message h2 {
+                font-size: 22px;
+            }
+            
+            .message-content {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            
+            .submit-btn, .back-btn {
+                padding: 12px 25px;
+                font-size: 15px;
+            }
+            
+            .lock-box {
+                padding: 20px;
+            }
+            
+            .lock-box h3 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart" id="heart">💔</div>
+        <div class="heart-text">اضغط على القلب لقراءة آخر رسالة</div>
+        <div class="attempts-counter" id="attempts-counter"></div>
+    </div>
+
+    <div class="password-container" id="password-container">
+        <div class="password-box">
+            <button class="back-btn" id="back-btn">← رجوع</button>
+            <h2>كلمة السر</h2>
+            <input type="password" class="password-input" id="password-input" placeholder="أدخل كلمة السر...">
+            <button class="submit-btn" id="submit-btn">فتح الرسالة</button>
+            <div class="error-message" id="error-message"></div>
+        </div>
+    </div>
+
+    <div class="message-container" id="message-container">
+        <div class="message">
+            <button class="close-btn" id="close-btn">×</button>
+            <h2>وداعاً للأبد...</h2>
+            <div class="message-content" id="message-content">
+                <p>لقد حاولت، ومررت على كل الطرق الممكنة... لكني سئمت.</p>
+                <p>سئمت من الانتظار، من الصمت، من الإهانة، من أن أكون دائمًا في موقع الضعيف.</p>
+                <p>كنت أعتقد أن الحب يُصلح كل شيء، لكنه في الحقيقة يدمّر أكثر مما يُرمم عندما لا يُقابل بالتقدير.</p>
+                <p>أنا لا أكرهك، لكني لم أعد أريدك، لأن الكرامة أهم من التوسل، وأهم من التعلق بشخص لا يراني.</p>
+                <p>أعلم أنني سأجد غيركِ، وأنكِ ستجدين غيري، فهذه ليست نهاية العالم، بل هي بداية جديدة لي.</p>
+                <p>قصتنا لم تكتمل بسبب تلاعبكِ وعدم نضجكِ العاطفي، فمن البداية كنتِ تعاملينني بسوء وتلومينني لعدم اهتمامي، بينما كنتُ أهتم أكثر مما يجب.</p>
+                <p>حقاً كرهت اليوم الذي ارتبطتُ فيه بكِ، فكل تصرف منكِ كان يعكس عدم ثقتكِ بنفسكِ، وتصرفاتكِ هذه مجرد دليل على أنكِ لا تصلحين للعلاقات.</p>
+                <p>أكتب لكِ هذه الكلمات لأخبركِ أني وصلت للنهاية، نهاية ما بيننا، نهاية كل شيء.</p>
+                <div class="signature">
+                    ياسين
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lock-overlay" id="lock-overlay">
+        <div class="lock-box">
+            <h3>نفذت جميع المحاولات</h3>
+            <p>لقد استخدمت جميع محاولاتك الثلاث. يرجى المحاولة مرة أخرى بعد ساعة.</p>
+            <button class="lock-ok-btn" id="lock-ok-btn">موافق</button>
+            <div class="attempts-counter" style="margin-top: 20px;">تبقى محاولة: 0</div>
+        </div>
+    </div>
+
+    <script>
+        const heart = document.getElementById('heart');
+        const passwordContainer = document.getElementById('password-container');
+        const passwordInput = document.getElementById('password-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const backBtn = document.getElementById('back-btn');
+        const errorMessage = document.getElementById('error-message');
+        const attemptsCounter = document.getElementById('attempts-counter');
+        const messageContainer = document.getElementById('message-container');
+        const closeBtn = document.getElementById('close-btn');
+        const messageContent = document.getElementById('message-content');
+        const paragraphs = document.querySelectorAll('.message-content p');
+        const signature = document.querySelector('.signature');
+        const lockOverlay = document.getElementById('lock-overlay');
+        const lockOkBtn = document.getElementById('lock-ok-btn');
+
+        const correctPasswords = ["bankai", "Bankai", "وداعا", "فراق", "ياسين"];
+        const MAX_ATTEMPTS = 3;
+        const LOCK_TIME = 60 * 60 * 1000; // ساعة واحدة بالميلي ثانية
+        
+        let attemptsData = JSON.parse(localStorage.getItem('attemptsData')) || {
+            attempts: 0,
+            lastAttemptTime: null,
+            locked: false
+        };
+        
+        let countdownInterval = null;
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLockStatus();
+            updateAttemptsCounter();
+        });
+
+        function checkLockStatus() {
+            if (attemptsData.locked) {
+                const remainingTime = attemptsData.lastAttemptTime + LOCK_TIME - Date.now();
+                if (remainingTime > 0) {
+                    lockSystem();
+                    startCountdown(remainingTime);
+                    return true;
+                } else {
+                    resetAttempts();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function lockSystem() {
+            heart.classList.add('disabled');
+            heart.textContent = '🚫';
+            heart.style.cursor = 'not-allowed';
+            attemptsCounter.textContent = "تبقى محاولة: 0";
+            
+            // إظهار نافذة القفل
+            lockOverlay.classList.add('visible');
+        }
+
+        function startCountdown(remainingTime) {
+            clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(() => {
+                const remaining = attemptsData.lastAttemptTime + LOCK_TIME - Date.now();
+                
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    resetAttempts();
+                }
+            }, 1000);
+        }
+
+        function resetAttempts() {
+            attemptsData = {
+                attempts: 0,
+                lastAttemptTime: null,
+                locked: false
+            };
+            localStorage.setItem('attemptsData', JSON.stringify(attemptsData));
+            
+            heart.classList.remove('disabled');
+            heart.textContent = '💔';
+            heart.style.cursor = 'pointer';
+            updateAttemptsCounter();
+            
+            // إخفاء نافذة القفل
+            lockOverlay.classList.remove('visible');
+        }
+
+        function updateAttemptsCounter() {
+            const remainingAttempts = MAX_ATTEMPTS - attemptsData.attempts;
+            attemptsCounter.textContent = `تبقى محاولة: ${remainingAttempts}`;
+        }
+
+        function showMessageContent() {
+            paragraphs.forEach(p => p.classList.remove('visible'));
+            signature.classList.remove('visible');
+            
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.classList.add('visible');
+                }, 500 * (index + 1));
+            });
+            
+            setTimeout(() => {
+                signature.classList.add('visible');
+            }, 500 * (paragraphs.length + 1));
+        }
+
+        heart.addEventListener('click', function() {
+            if (heart.classList.contains('disabled')) {
+                return;
+            }
+            
+            if (checkLockStatus()) {
+                return;
+            }
+            
+            passwordContainer.classList.add('visible');
+            passwordInput.focus();
+        });
+
+        backBtn.addEventListener('click', function() {
+            passwordContainer.classList.remove('visible');
+            errorMessage.textContent = '';
+            passwordInput.value = '';
+        });
+
+        submitBtn.addEventListener('click', function() {
+            const enteredPassword = passwordInput.value.trim();
+            
+            if (correctPasswords.includes(enteredPassword)) {
+                passwordContainer.classList.remove('visible');
+                messageContainer.classList.add('visible');
+                passwordInput.value = '';
+                errorMessage.textContent = '';
+                
+                resetAttempts();
+                showMessageContent();
+            } else {
+                attemptsData.attempts++;
+                attemptsData.lastAttemptTime = Date.now();
+                
+                if (attemptsData.attempts >= MAX_ATTEMPTS) {
+                    attemptsData.locked = true;
+                    localStorage.setItem('attemptsData', JSON.stringify(attemptsData));
+                    lockSystem();
+                    startCountdown(LOCK_TIME);
+                } else {
+                    localStorage.setItem('attemptsData', JSON.stringify(attemptsData));
+                    updateAttemptsCounter();
+                    
+                    errorMessage.textContent = `كلمة السر خاطئة! ${MAX_ATTEMPTS - attemptsData.attempts} محاولة متبقية`;
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    passwordInput.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        passwordInput.style.animation = '';
+                    }, 500);
+                    
+                    createTear();
+                }
+            }
+        });
+
+        lockOkBtn.addEventListener('click', function() {
+            lockOverlay.classList.remove('visible');
+        });
+
+        closeBtn.addEventListener('click', function() {
+            messageContainer.classList.remove('visible');
+            paragraphs.forEach(p => p.classList.remove('visible'));
+            signature.classList.remove('visible');
+        });
+
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+        
+        function createTear() {
+            const tear = document.createElement('div');
+            tear.className = 'tear';
+            
+            const x = Math.random() * window.innerWidth;
+            const size = Math.random() * 10 + 5;
+            
+            tear.style.width = `${size}px`;
+            tear.style.height = `${size * 1.5}px`;
+            tear.style.left = `${x}px`;
+            tear.style.top = '0';
+            
+            document.body.appendChild(tear);
+            
+            const animationDuration = Math.random() * 2 + 1;
+            tear.style.transition = `top ${animationDuration}s linear, opacity ${animationDuration}s ease`;
+            
+            setTimeout(() => {
+                tear.style.top = `${window.innerHeight}px`;
+                tear.style.opacity = '0';
+            }, 10);
+            
+            setTimeout(() => {
+                tear.remove();
+            }, animationDuration * 1000 + 100);
+        }
+        
+        function addRandomTears() {
+            if (Math.random() > 0.7) {
+                createTear();
+            }
+            setTimeout(addRandomTears, 3000);
+        }
+        
+        setTimeout(addRandomTears, 2000);
+    </script>
+</body>
+</html>
