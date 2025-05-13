@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> </title>
+    <title>رسالة وداع نهائية</title>
     <style>
-        /* التصميم العام */
+        :root {
+            --main-color: #8b0000; /* لون أحمر داكن حزين */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --secondary-color: #444;
+            --error-color: #ff6b6b;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #fff5f7;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,33 +29,41 @@
             margin: 0;
             padding: 20px;
             text-align: center;
-            color: #555;
             overflow: hidden;
             position: relative;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
         }
 
-        /* تصميم القلب والنص تحته */
         .heart-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 30px;
+            position: relative;
+            z-index: 5;
         }
 
         .heart {
             font-size: 60px;
-            color: #ff66a3;
-            text-shadow: 0 0 15px rgba(255, 102, 163, 0.4);
+            color: var(--main-color);
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
             cursor: pointer;
             transition: all 0.5s;
-            animation: heartbeat 1.5s infinite;
+            animation: heartbeat 2s infinite;
             margin-bottom: 15px;
         }
 
+        .heart:hover {
+            transform: scale(1.2);
+            text-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
+        }
+
         .heart-text {
-            font-size: 20px;
-            color: #ff66a3;
+            font-size: 18px;
+            color: #aaa;
             margin-top: 10px;
+            max-width: 300px;
+            line-height: 1.6;
         }
 
         @keyframes heartbeat {
@@ -54,19 +74,10 @@
             100% { transform: scale(1); }
         }
 
-        .heart:hover {
-            transform: scale(1.2) rotate(10deg);
-            text-shadow: 0 0 25px rgba(255, 102, 163, 0.6);
-        }
-
-        /* نافذة كلمة السر */
         .password-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -74,6 +85,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.5s ease;
+            backdrop-filter: blur(5px);
         }
 
         .password-container.visible {
@@ -82,314 +94,409 @@
         }
 
         .password-box {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 30px 25px;
+            border-radius: 12px;
             width: 90%;
             max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border: 1px solid var(--main-color);
+            position: relative;
         }
 
         .password-box h2 {
-            color: #ff66a3;
-            margin-bottom: 20px;
-            font-size: 24px;
+            color: var(--main-color);
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: 600;
         }
 
         .password-input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ffccdd;
+            padding: 14px;
+            border: 1px solid var(--secondary-color);
             border-radius: 8px;
             font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(30, 30, 30, 0.8);
+            color: var(--text-color);
             text-align: center;
-            outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .password-input:focus {
-            border-color: #ff66a3;
+            outline: none;
+            border-color: var(--main-color);
+            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.3);
         }
 
         .submit-btn {
-            background-color: #ff66a3;
+            background-color: var(--main-color);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px 30px;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s;
             width: 100%;
-            max-width: 200px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
 
         .submit-btn:hover {
-            background-color: #ff4d94;
+            background-color: #6b0000;
             transform: translateY(-2px);
         }
 
-        .error-message {
-            color: #ff4d4d;
-            margin-top: 15px;
-            height: 20px;
-            font-size: 16px;
-            text-align: center;
+        .submit-btn:active {
+            transform: translateY(0);
         }
 
-        /* تصميم الرسالة */
+        .back-btn {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--secondary-color);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--main-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            margin-top: 15px;
+            font-size: 15px;
+            height: 20px;
+        }
+
         .message-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            transform: translateY(20px) scale(0.95);
+            transition: all 0.8s ease;
+            transform: translateY(20px);
             z-index: 10;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
         }
 
         .message-container.visible {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .message {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255, 102, 163, 0.2);
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 25px;
+            border-radius: 15px;
             max-width: 700px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
+            width: 100%;
+            color: var(--text-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--main-color);
             position: relative;
-            border: 2px solid #ffebf0;
-        }
-
-        .message::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background: linear-gradient(90deg, #ff66a3, #ff99c2);
-            border-radius: 20px 20px 0 0;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .message h2 {
-            color: #ff66a3;
-            font-size: 26px;
+            color: var(--main-color);
+            font-size: 24px;
             margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #ffccdd;
             text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--secondary-color);
         }
 
         .message-content {
             text-align: right;
-            line-height: 2;
-            font-size: 18px;
-            word-spacing: 5px;
+            line-height: 1.8;
+            font-size: 17px;
         }
 
-        .message p {
+        .message-content p {
             margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .message-content p.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .signature {
             text-align: left;
             font-style: italic;
             font-weight: bold;
-            color: #ff66a3;
+            color: var(--main-color);
             margin-top: 30px;
-            font-size: 20px;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .signature.visible {
+            opacity: 1;
         }
 
         .close-btn {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ffebf0;
+            top: 10px;
+            left: 10px;
+            background: transparent;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            color: var(--main-color);
+            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #ff66a3;
-            font-size: 18px;
+            border-radius: 50%;
+            transition: all 0.3s;
         }
 
         .close-btn:hover {
-            background: #ff66a3;
-            color: white;
-            transform: rotate(90deg);
+            background-color: rgba(139, 0, 0, 0.2);
         }
 
-        /* تأثيرات للجوال */
-        @media (max-width: 768px) {
-            .message {
-                padding: 20px;
-                font-size: 16px;
-            }
-            
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* تأثيرات إضافية للحزن */
+        .tear {
+            position: absolute;
+            background: rgba(100, 150, 255, 0.6);
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        /* تحسينات للهاتف */
+        @media (max-width: 480px) {
             .heart {
                 font-size: 50px;
             }
             
             .heart-text {
-                font-size: 18px;
+                font-size: 16px;
+            }
+            
+            .password-box {
+                padding: 25px 20px;
+            }
+            
+            .password-box h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .message {
+                padding: 20px 15px;
             }
             
             .message h2 {
                 font-size: 22px;
             }
             
-            .signature {
-                font-size: 18px;
+            .message-content {
+                font-size: 16px;
+                line-height: 1.7;
             }
             
-            .password-box h2 {
-                font-size: 22px;
+            .submit-btn, .back-btn {
+                padding: 12px 25px;
+                font-size: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="heart-container">
-        <div class="heart" id="heart">❤️</div>
-        <div class="heart-text">إضغطي على القلب لرؤية الرسالة</div>
+        <div class="heart" id="heart">💔</div>
+        <div class="heart-text">اضغط على القلب لقراءة آخر رسالة</div>
     </div>
 
-    <!-- نافذة كلمة السر -->
     <div class="password-container" id="password-container">
         <div class="password-box">
-            <h2>أدخلي كلمة السر</h2>
-            <input type="password" class="password-input" id="password-input" placeholder="كلمة السر...">
+            <button class="back-btn" id="back-btn">← رجوع</button>
+            <h2>كلمة السر</h2>
+            <input type="password" class="password-input" id="password-input" placeholder="أدخل كلمة السر...">
             <button class="submit-btn" id="submit-btn">فتح الرسالة</button>
             <div class="error-message" id="error-message"></div>
         </div>
     </div>
 
-    <!-- نافذة الرسالة -->
     <div class="message-container" id="message-container">
         <div class="message">
             <button class="close-btn" id="close-btn">×</button>
-            <h2>إلى حبيبتي الغالية...</h2>
-            <div class="message-content">
-                <p>حبيبتي،</p>
-                
-                <p>لا أعرف من أين أبدأ، ولا كيف أعبر عمّا يثقل قلبي منذ ابتعدتِ… لكن ما أعرفه هو أني أخطأت، وأني أندم على كل لحظة جعلتكِ تشعرين فيها أني لا أهتم، أو أني لا أحبك.</p>
-                
-                <p>لم أكرهك يومًا، بل كنتِ دائمًا في قلبي، ولكن غبائي، صمتي، برودي أحيانًا… جعلوكِ تظنين عكس ما بداخلي. سامحيني، ليس لأنني أستحق، بل لأنكِ تستحقين من يحبك كما أنتِ: نقية، رائعة، لا تُعوَّض.</p>
-                
-                <p>أشتاق إليكِ… إلى صوتك، إلى ضحكتك، إلى دفء وجودك الذي كان يربت على تعبي دون أن تطلبي شيئًا. كنتِ الأمان، وأنا لم أقدّرك كما ينبغي.</p>
-                
-                <p>لو عاد الزمن، لقاتلتُ من أجلكِ كل لحظة، ولقلتُ لكِ كم أحبك، بدلًا من أن أصمت وأخسرك.</p>
-                
-                <p>إن عدتِ، لن أكون كما كنت. سأكون الشخص الذي يستحقك… وإن لم تعودي، سأظل أحبك بصمت، بندم، وأدعو لكِ بكل خير من أعماق قلبي.</p>
-                
+            <h2>وداعاً للأبد...</h2>
+            <div class="message-content" id="message-content">
+                <p>لقد حاولت، ومررت على كل الطرق الممكنة... لكني سئمت.</p>
+                <p>سئمت من الانتظار، من الصمت، من الإهانة، من أن أكون دائمًا في موقع الضعيف.</p>
+                <p>كنت أعتقد أن الحب يُصلح كل شيء، لكنه في الحقيقة يدمّر أكثر مما يُرمم عندما لا يُقابل بالتقدير.</p>
+                <p>أنا لا أكرهك، لكني لم أعد أريدك، لأن الكرامة أهم من التوسل، وأهم من التعلق بشخص لا يراني.</p>
+                <p>أعلم أنني سأجد غيركِ، وأنكِ ستجدين غيري، فهذه ليست نهاية العالم، بل هي بداية جديدة لي.</p>
+                <p>قصتنا لم تكتمل بسبب تلاعبكِ وعدم نضجكِ العاطفي، فمن البداية كنتِ تعاملينني بسوء وتلومينني لعدم اهتمامي، بينما كنتُ أهتم أكثر مما يجب.</p>
+                <p>حقاً كرهت اليوم الذي ارتبطتُ فيه بكِ، فكل تصرف منكِ كان يعكس عدم ثقتكِ بنفسكِ، وتصرفاتكِ هذه مجرد دليل على أنكِ لا تصلحين للعلاقات.</p>
+                <p>أكتب لكِ هذه الكلمات لأخبركِ أني وصلت للنهاية، نهاية ما بيننا، نهاية كل شيء.</p>
                 <div class="signature">
-                    المحبّ لكِ دائمًا،<br>
-                    [يــاســيـن]❤️‍🔥
+                    ياسين
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // العناصر الرئيسية
         const heart = document.getElementById('heart');
         const passwordContainer = document.getElementById('password-container');
         const passwordInput = document.getElementById('password-input');
         const submitBtn = document.getElementById('submit-btn');
+        const backBtn = document.getElementById('back-btn');
         const errorMessage = document.getElementById('error-message');
         const messageContainer = document.getElementById('message-container');
         const closeBtn = document.getElementById('close-btn');
+        const messageContent = document.getElementById('message-content');
+        const paragraphs = document.querySelectorAll('.message-content p');
+        const signature = document.querySelector('.signature');
 
-        // كلمة السر الصحيحة (غير حساسة لحالة الأحرف)
-        const correctPasswords = ["honey", "Honey"];
-        let attempts = 0;
+        const correctPasswords = ["bankai", "Bankai", "وداعا", "فراق", "ياسين"];
 
-        // عند النقر على القلب
+        // تغيير لون القلب عند التمرير
+        heart.addEventListener('mouseenter', function() {
+            this.textContent = '💔';
+        });
+        
+        heart.addEventListener('mouseleave', function() {
+            this.textContent = '🖤';
+        });
+
         heart.addEventListener('click', function() {
             passwordContainer.classList.add('visible');
             passwordInput.focus();
         });
 
-        // عند محاولة فتح الرسالة
+        // زر الرجوع
+        backBtn.addEventListener('click', function() {
+            passwordContainer.classList.remove('visible');
+            errorMessage.textContent = '';
+            passwordInput.value = '';
+        });
+
         submitBtn.addEventListener('click', function() {
             const enteredPassword = passwordInput.value.trim();
-            
             if (correctPasswords.includes(enteredPassword)) {
-                // كلمة السر صحيحة
                 passwordContainer.classList.remove('visible');
                 messageContainer.classList.add('visible');
                 passwordInput.value = '';
                 errorMessage.textContent = '';
-                attempts = 0;
+                
+                // إخفاء جميع الفقرات أولاً
+                paragraphs.forEach(p => p.classList.remove('visible'));
+                signature.classList.remove('visible');
+                
+                // عرض الفقرات واحدة تلو الأخرى
+                paragraphs.forEach((p, index) => {
+                    setTimeout(() => {
+                        p.classList.add('visible');
+                    }, 500 * (index + 1));
+                });
+                
+                // عرض التوقيع بعد الفقرات
+                setTimeout(() => {
+                    signature.classList.add('visible');
+                }, 500 * (paragraphs.length + 1));
+                
             } else {
-                // كلمة السر خاطئة
-                attempts++;
+                errorMessage.textContent = "كلمة السر خاطئة، حاول مرة أخرى";
                 passwordInput.value = '';
                 passwordInput.focus();
-                
-                if (attempts === 1) {
-                    errorMessage.textContent = "تذكري أكثر...";
-                } else if (attempts === 2) {
-                    errorMessage.textContent = "حاولي مرة أخرى...";
-                } else {
-                    errorMessage.textContent = "تذكري ماذا كان يناديك ياسين...";
-                }
-                
-                // تأثير اهتزاز عند الخطأ
                 passwordInput.style.animation = 'shake 0.5s';
                 setTimeout(() => {
                     passwordInput.style.animation = '';
                 }, 500);
+                
+                // إنشاء تأثير دمعة عند الخطأ
+                createTear();
             }
         });
 
-        // إغلاق الرسالة
         closeBtn.addEventListener('click', function() {
             messageContainer.classList.remove('visible');
+            // إخفاء الفقرات عند الإغلاق
+            paragraphs.forEach(p => p.classList.remove('visible'));
+            signature.classList.remove('visible');
         });
 
-        // السماح بالضغط على Enter لإدخال كلمة السر
         passwordInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 submitBtn.click();
             }
         });
-
-        // تأثير اهتزاز عند الخطأ
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
+        
+        // إنشاء تأثير دمعة
+        function createTear() {
+            const tear = document.createElement('div');
+            tear.className = 'tear';
+            
+            // وضع عشوائي للدمعة
+            const x = Math.random() * window.innerWidth;
+            const size = Math.random() * 10 + 5;
+            
+            tear.style.width = `${size}px`;
+            tear.style.height = `${size * 1.5}px`;
+            tear.style.left = `${x}px`;
+            tear.style.top = '0';
+            
+            document.body.appendChild(tear);
+            
+            // تحريك الدمعة
+            const animationDuration = Math.random() * 2 + 1;
+            tear.style.transition = `top ${animationDuration}s linear, opacity ${animationDuration}s ease`;
+            
+            setTimeout(() => {
+                tear.style.top = `${window.innerHeight}px`;
+                tear.style.opacity = '0';
+            }, 10);
+            
+            // إزالة الدمعة بعد الانتهاء
+            setTimeout(() => {
+                tear.remove();
+            }, animationDuration * 1000 + 100);
+        }
+        
+        // إضافة بعض الدموع العشوائية
+        function addRandomTears() {
+            if (Math.random() > 0.7) {
+                createTear();
             }
-        `;
-        document.head.appendChild(style);
+            setTimeout(addRandomTears, 3000);
+        }
+        
+        // بدء تأثير الدموع
+        setTimeout(addRandomTears, 2000);
     </script>
 </body>
 </html>
